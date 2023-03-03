@@ -98,7 +98,7 @@ public class MovieCollection
 
             if (movieTitle.indexOf(searchTerm) != -1)
             {
-                //add the Movie objest to the results list
+                //add the Movie object to the results list
                 results.add(movies.get(i));
             }
         }
@@ -165,14 +165,64 @@ public class MovieCollection
     private void searchCast()
     {
         ArrayList<String> castList = new ArrayList<>();
+        boolean hasMember = false;
 
         for (Movie movie : movies) {
             String[] castDump;
             castDump = movie.getCast().split("\\|");
             for (String member : castDump) {
-                if ()
+                for (int i = 0; i < castList.size(); i++) {
+                    if (member.equals(castList.get(i))) {
+                        castList.remove(i);
+                    }
+                }
+            }
+
+            for (String member : castDump) {
+                castList.add(member);
             }
         }
+
+        System.out.print("Enter a cast member name: ");
+        String searchTerm = scanner.nextLine();
+        searchTerm = searchTerm.toLowerCase();
+
+        ArrayList<String> results = new ArrayList<>();
+        for (int i = 0; i < castList.size(); i++) {
+            if (castList.get(i).indexOf(searchTerm) >= 0) {
+                results.add(castList.get(i));
+            }
+        }
+
+        // sort by alphabet
+
+        for (int i = 0; i < results.size(); i++) {
+            String member = results.get(i);
+            int choiceNum = i + 1;
+            System.out.println("" + choiceNum + ". " + member);
+        }
+
+        System.out.println("Which movie would you like to learn more about?");
+        System.out.print("Enter number: ");
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        String selectMember = results.get(choice - 1);
+
+        ArrayList<Movie> movieResults = new ArrayList<>();
+        for (Movie movie : movies) {
+            String[] castDump;
+            castDump = movie.getCast().split("\\|");
+            for (int i = 0; i < castDump.length; i++) {
+                if (selectMember.equals(castDump[i])) {
+                    movieResults.add(movie);
+                }
+            }
+        }
+
+        sortResults(movieResults);
+        for (int i = 0; )
     }
 
     private void searchKeywords()
